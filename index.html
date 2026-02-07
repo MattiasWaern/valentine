@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brev till Annika :D 💌</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #ffd1dc 0%, #ffb6c1 50%, #ffc0cb 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .sparkle {
+            position: fixed;
+            font-size: 20px;
+            animation: sparkle 3s ease-in-out infinite;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+            50% { opacity: 1; transform: scale(1) rotate(180deg); }
+        }
+
+        /* Kuvert steg 1 - Stängt kuvert */
+        .envelope-wrapper {
+            position: relative;
+            width: 400px;
+            height: 300px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .envelope-wrapper:hover {
+            transform: scale(1.05);
+        }
+
+        .envelope-wrapper.opening {
+            cursor: default;
+        }
+
+        .envelope {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .envelope-back {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ff69b4 0%, #ff85c0 100%);
+            border-radius: 10px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60%;
+            background: linear-gradient(135deg, #ff1493 0%, #ff69b4 100%);
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            transform-origin: top center;
+            transition: transform 1s ease;
+            z-index: 3;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .envelope-wrapper.opening .envelope-flap {
+            transform: rotateX(180deg);
+        }
+
+        .heart-seal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 60px;
+            z-index: 4;
+            animation: heartbeat 1.5s ease-in-out infinite;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            25% { transform: translate(-50%, -50%) scale(1.1); }
+            50% { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .envelope-wrapper.opening .heart-seal {
+            animation: sealBreak 1s ease forwards;
+        }
+
+        @keyframes sealBreak {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            50% { transform: translate(-50%, -50%) scale(1.3) rotate(20deg); }
+            100% { transform: translate(-50%, -50%) scale(0) rotate(90deg); opacity: 0; }
+        }
+
+        .instruction {
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff;
+            font-size: 18px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            animation: bounce 2s ease-in-out infinite;
+            white-space: nowrap;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        .envelope-wrapper.opening .instruction {
+            opacity: 0;
+        }
+
+        /* Brevet inuti */
+        .letter {
+            position: absolute;
+            width: 90%;
+            left: 5%;
+            top: 15%;
+            background: #fffef7;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            transform: translateY(0);
+            transition: transform 1.2s ease 0.5s;
+            z-index: 2;
+            opacity: 0;
+            cursor: default;
+        }
+
+        .envelope-wrapper.opening .letter {
+            transform: translateY(-120px);
+            opacity: 1;
+        }
+
+        .letter-content {
+            opacity: 0;
+            transition: opacity 0.8s ease 1.8s;
+        }
+
+        .envelope-wrapper.opening .letter-content {
+            opacity: 1;
+        }
+
+        .continue-btn {
+            display: none;
+            margin-top: 25px;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #ff1493, #ff69b4);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 20, 147, 0.4);
+            transition: all 0.3s ease;
+            font-family: 'Georgia', serif;
+            font-weight: bold;
+        }
+
+        .continue-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 20, 147, 0.6);
+        }
+
+        .continue-btn.show {
+            display: inline-block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .letter-header {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 50px;
+        }
+
+        .letter h2 {
+            color: #ff1493;
+            font-size: 28px;
+            text-align: center;
+            margin-bottom: 15px;
+            font-family: 'Brush Script MT', cursive;
+        }
+
+        .letter p {
+            color: #555;
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .letter .signature {
+            text-align: right;
+            margin-top: 20px;
+            font-style: italic;
+            color: #ff1493;
+            font-size: 18px;
+        }
+
+        /* Fråga-delen */
+        .question-section {
+            display: none;
+            text-align: center;
+            padding: 40px;
+            background: #fffef7;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(255, 105, 180, 0.3);
+            max-width: 500px;
+            position: relative;
+            animation: slideIn 0.8s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .question-section.show {
+            display: block;
+        }
+
+        .big-heart {
+            font-size: 100px;
+            animation: heartbeat 1.5s ease-in-out infinite;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .question-section h1 {
+            color: #ff1493;
+            font-size: 36px;
+            margin-bottom: 20px;
+            font-family: 'Brush Script MT', cursive;
+        }
+
+        .question-section p {
+            color: #666;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 15px 40px;
+            font-size: 20px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-family: 'Georgia', serif;
+        }
+
+        .yes-btn {
+            background: linear-gradient(135deg, #ff1493, #ff69b4);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 20, 147, 0.4);
+        }
+
+        .yes-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 20, 147, 0.6);
+        }
+
+        .no-btn {
+            background: #f0f0f0;
+            color: #666;
+            position: relative;
+        }
+
+        .no-btn:hover {
+            background: #e0e0e0;
+        }
+
+        /* Firande */
+        .celebration {
+            display: none;
+            text-align: center;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .celebration.show {
+            display: block;
+        }
+
+        .celebration h2 {
+            color: #ff1493;
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-family: 'Brush Script MT', cursive;
+        }
+
+        .celebration p {
+            color: #666;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.8) rotate(-5deg); }
+            to { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            position: absolute;
+            animation: confetti-fall 3s ease-out forwards;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .floating-heart {
+            position: fixed;
+            font-size: 30px;
+            opacity: 0.4;
+            animation: float 6s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(10deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Bakgrundshjärtan -->
+    <div id="heartsBackground"></div>
+
+    <!-- Kuvertet -->
+    <div class="envelope-wrapper" id="envelopeWrapper" onclick="openEnvelope()">
+        <div class="envelope">
+            <div class="envelope-back"></div>
+            <div class="envelope-flap"></div>
+            <div class="heart-seal">💌</div>
+            <div class="instruction">Klicka för att öppna 💕</div>
+            
+            <div class="letter">
+                <div class="letter-content">
+                    <div class="letter-header">💖</div>
+                    <h2>Till min älskling</h2>
+                    <p>Varje dag med dig känns som magi.</p>
+                    <p>Du är den som får mitt hjärta att slå snabbare,</p>
+                    <p>den som får mig att le utan anledning,</p>
+                    <p>och den jag vill dela allt med.</p>
+                    <p style="margin-top: 20px; font-weight: bold; color: #ff1493; font-size: 18px;">
+                        Det finns något jag vill fråga dig...
+                    </p>
+                    <div class="signature">Med all min kärlek ❤️</div>
+                    <button class="continue-btn" id="continueBtn" onclick="showQuestion()">Fortsätt 💕</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Frågan -->
+    <div class="question-section" id="questionSection">
+        <div id="question">
+            <div class="big-heart">💖</div>
+            <h1>Vill du vara min Valentine?</h1>
+            <p>Jag kan inte tänka mig någon jag hellre vill fira kärlekens dag med! 🥰</p>
+            <div class="buttons">
+                <button class="yes-btn" onclick="sayYes()">Ja, självklart! 💕</button>
+                <button class="no-btn" onclick="moveButton(event)" id="noBtn">Nej</button>
+            </div>
+        </div>
+
+        <div class="celebration" id="celebration">
+            <div class="big-heart" style="font-size: 120px;">💕</div>
+            <h2>Du sa ja!</h2>
+            <p>Du gör mig så otroligt lycklig! 🥰</p>
+            <p>Jag längtar redan till vår Valentine's Day! 💖✨</p>
+        </div>
+    </div>
+
+    <script>
+        // Skapa bakgrundshjärtan
+        const heartsBackground = document.getElementById('heartsBackground');
+        const heartEmojis = ['💕', '💖', '💗', '💝', '💓', '✨'];
+        
+        for (let i = 0; i < 20; i++) {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.top = Math.random() * 100 + '%';
+            heart.style.animationDelay = Math.random() * 3 + 's';
+            heartsBackground.appendChild(heart);
+        }
+
+        // Skapa glitterstjärnor
+        for (let i = 0; i < 30; i++) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.textContent = '✨';
+            sparkle.style.left = Math.random() * 100 + '%';
+            sparkle.style.top = Math.random() * 100 + '%';
+            sparkle.style.animationDelay = Math.random() * 3 + 's';
+            document.body.appendChild(sparkle);
+        }
+
+        let envelopeOpened = false;
+
+        function openEnvelope() {
+            if (envelopeOpened) return;
+            envelopeOpened = true;
+
+            const wrapper = document.getElementById('envelopeWrapper');
+            wrapper.classList.add('opening');
+            
+            // Visa "Fortsätt"-knappen efter att texten blivit synlig
+            setTimeout(() => {
+                document.getElementById('continueBtn').classList.add('show');
+            }, 2600);
+        }
+
+        function showQuestion() {
+            const wrapper = document.getElementById('envelopeWrapper');
+            wrapper.style.display = 'none';
+            document.getElementById('questionSection').classList.add('show');
+        }
+
+        function moveButton(event) {
+            event.stopPropagation();
+            const btn = document.getElementById('noBtn');
+            const section = document.getElementById('questionSection');
+            const rect = section.getBoundingClientRect();
+            
+            const maxX = rect.width - btn.offsetWidth - 80;
+            const maxY = rect.height - btn.offsetHeight - 80;
+            
+            const randomX = 40 + Math.random() * maxX;
+            const randomY = 40 + Math.random() * maxY;
+            
+            btn.style.position = 'absolute';
+            btn.style.left = randomX + 'px';
+            btn.style.top = randomY + 'px';
+            
+            // Ändra texten lite grann
+            const texts = ['Nej', 'Verkligen nej?', 'Är du säker?', 'Tänk om! 🥺', 'Snälla? 💕'];
+            btn.textContent = texts[Math.floor(Math.random() * texts.length)];
+        }
+
+        function sayYes() {
+            const question = document.getElementById('question');
+            const celebration = document.getElementById('celebration');
+            
+            question.style.display = 'none';
+            celebration.classList.add('show');
+            
+            // Skapa massvis med konfetti
+            const colors = ['#ff1493', '#ff69b4', '#ff85c1', '#ffc0cb', '#ffd700', '#ff6347'];
+            for (let i = 0; i < 150; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.top = '-10px';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                    confetti.style.width = (5 + Math.random() * 10) + 'px';
+                    confetti.style.height = confetti.style.width;
+                    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 15);
+            }
+
+            // Extra hjärtan
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.textContent = ['💕', '💖', '💗', '💝'][Math.floor(Math.random() * 4)];
+                    heart.style.position = 'fixed';
+                    heart.style.fontSize = (20 + Math.random() * 30) + 'px';
+                    heart.style.left = Math.random() * 100 + '%';
+                    heart.style.bottom = '-50px';
+                    heart.style.animation = 'float-up 3s ease-out forwards';
+                    heart.style.zIndex = '1000';
+                    document.body.appendChild(heart);
+                    
+                    setTimeout(() => heart.remove(), 3000);
+                }, i * 50);
+            }
+        }
+
+        // Lägg till animation för hjärtan som flyger uppåt
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes float-up {
+                to {
+                    transform: translateY(-100vh) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
