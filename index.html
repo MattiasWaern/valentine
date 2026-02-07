@@ -83,6 +83,7 @@
 
         .envelope-wrapper.opening .envelope-flap {
             transform: rotateX(180deg);
+            z-index: 1;
         }
 
         .heart-seal {
@@ -474,7 +475,7 @@
             btn.style.top = randomY + 'px';
             
             // Ändra texten lite grann
-            const texts = ['Nej', 'Verkligen nej?', 'Är du säker?', 'Tänk om! 🥺', 'Snälla? 💕', 'Mommy please🥺💕', 'pweatty please🥺'];
+            const texts = ['Nej', 'Tänk om! 🥺', 'Snälla? 💕', 'Mommy please🥺💕', 'pweatty please🥺'];
             btn.textContent = texts[Math.floor(Math.random() * texts.length)];
         }
 
